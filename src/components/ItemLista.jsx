@@ -3,21 +3,17 @@ import "../css/ItemLista.css";
 //nocódigo abaixo fiz a desestruturação de props
 const ItemLista = ({
     id,
-    titulo,
-    descricao,
-    status,
-    data_criacao,
-    data_limite,
+    description,
+    name,
+    price,
     excluirClick,
     alterarClick}) => {
     return (
         <tr>
             <td>{id}</td>
-            <td>{titulo}</td>
-            <td>{descricao}</td>
-            <td>{status}</td>
-            <td>{data_criacao}</td>
-            <td>{data_limite}</td>
+            <td>{name}</td>
+            <td>{description}</td>
+            <td>{price}</td>
             <td class="text-center">
                 <i className="exclui text-danger fw-bold" title="Excluir" onClick={excluirClick}>&#10008;</i>
                 <i className="altera text-sucess fw-bold ms-2" title="Alterar" onClick={alterarClick}>&#36;</i>

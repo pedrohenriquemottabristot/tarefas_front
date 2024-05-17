@@ -12,6 +12,7 @@ const ManutencaoProdutos = () => {
     const obterLista = async () => {
         try{
             const lista = await api.get("product/all");
+            console.log("lista:"+lista.data);
             setProdutos(lista.data);
         }catch(error){
             alert(`Erro: ..Não foi possível obter os dados: ${error}`);
@@ -42,9 +43,9 @@ const excluir = async(id,name) => {
     }
     try{
         console.log("id é:"+id)
-        await api.delete(`product/${id}`);
+        await api.delete(`product/deleteProduct/${id}`);
         //formar uma nova lista de tarefas sem a tarefa que foi excluida
-        setTarefas(produtos.filter(Produtos => produto.id !== id));
+        setProdutos(produtos.filter(Produtos => produto.id !== id));
         location.reload();
     }catch(error){
         alert(`Erro: ..Não foi possível excluir o produto ${name}: ${error}`);
@@ -66,7 +67,7 @@ const alterar = async (id,name,index) => {
         const ProdutosAtualizados = [...produtos];
         const indiceProdutos = ProdutosAtualizados.find(Produtos => Produtos.id === id);
         console.log("indice produto:"+indiceProdutos);
-        ProdutosAtualizados[indiceProdutos.id].status = novoNome;
+        ProdutosAtualizados[indiceProdutos.id].name = novoNome;
         setProdutos(ProdutosAtualizados);
         obterLista();
         location.reload();
@@ -84,7 +85,7 @@ const alterar = async (id,name,index) => {
             <div className="col-sm-5">
                 <form onSubmit={handleSubmit(filtrarLista)}>
                     <div className="input-group mt-3">
-                        <input type="text" className="form-control" placeholder="Titulo" required {...register("palavra")} />
+                        <input type="text" className="form-control" placeholder="Nome" required {...register("palavra")} />
                         <input type="submit" className="btn btn-primary" value="Pesquisar" />
                         <input type="button" className="btn btn-danger" value="Todos" onClick={()=>{reset({palavra:""});obterLista();}}/>
                     </div>
@@ -98,6 +99,7 @@ const alterar = async (id,name,index) => {
                     <th>Cód.</th>
                     <th>Nome</th>
                     <th>Descrição</th>
+                    <th>Preço</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -106,8 +108,9 @@ const alterar = async (id,name,index) => {
                     <ItemLista
                         key={produto.id}
                         id={produto.id}
-                        titulo={produto.name}
-                        descricao={produto.description}                              
+                        name={produto.name}
+                        description={produto.description} 
+                        price={produto.price}                             
                         excluirClick={()=>excluir(produto.id,produto.name)}
                         alterarClick={()=>alterar(produto.id,produto.name)}
                     />
