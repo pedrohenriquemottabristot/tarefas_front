@@ -82,7 +82,8 @@ const alterar = async (id,name,description,price,index) => {
         };
         await api.put(`product/updateProduct`,dadosProduto);
         // await api.put(`product/${id}`,{status: novoStatus});
-       
+       // Set a state variable to trigger page reload
+        setProdutosReload(true);
         const ProdutosAtualizados = [...produtos];
         const indiceProdutos = ProdutosAtualizados.find(Produtos => Produtos.id === id);
         console.log("indice produto:"+indiceProdutos);
