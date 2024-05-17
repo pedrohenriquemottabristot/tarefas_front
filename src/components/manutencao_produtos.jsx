@@ -65,7 +65,7 @@ const excluir = async (id, name) => {
   };
 
 //alterar os registros
-const alterar = async (id,name,index) => {
+const alterar = async (id,name,description,price,index) => {
     const novoNome = prompt(`Digite o novo nome do produto ${name}`);
     if (novoNome == "" ) {
         alert('Digite um nome válido!(nome em branco)')
@@ -73,7 +73,14 @@ const alterar = async (id,name,index) => {
     }
     try{//captura os erros 
         //chamando o backend e passando os dados
-        await api.put(`product/updateProduct`,{id: id, name: novoNome});
+        // Encapsulando os dados em um objeto
+        const dadosProduto = {
+         id: id,
+         name: novoNome,
+         description: description,
+         price: price
+        };
+        await api.put(`product/updateProduct`,dadosProduto);
         // await api.put(`product/${id}`,{status: novoStatus});
        
         const ProdutosAtualizados = [...produtos];
@@ -124,7 +131,7 @@ const alterar = async (id,name,index) => {
                         description={produto.description} 
                         price={produto.price}                             
                         excluirClick={()=>excluir(produto.id,produto.name)}
-                        alterarClick={()=>alterar(produto.id,produto.name)}
+                        alterarClick={()=>alterar(produto.id,produto.name,produto.description,produto.price)}
                     />
                 ))}
             </tbody>
