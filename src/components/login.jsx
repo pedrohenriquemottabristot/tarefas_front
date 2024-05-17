@@ -5,19 +5,19 @@ import { api } from "../config_axios";
 
 const FormularioLogin = () => {
     const [username, setUsername] = useState("");
-    const [senha, setSenha] = useState("");
+    const [password, setPassword] = useState("");
     const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        if (username.trim() === "" || senha.trim() === "") {
+        if (username.trim() === "" || password.trim() === "") {
             alert("Preencha todos os campos!");
             return;
         }
     
         try {
-            const response = await api.post("/login", { username, senha });
+            const response = await api.post("/login", { username, password });
             if (response.status === 200) {
                 login();
             } else {

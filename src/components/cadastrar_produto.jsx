@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import { api } from "../config_axios";
 import { useState } from "react";
 
-const Cadastrar_tarefa = () => {
+const Cadastrar_produto = () => {
   const { register, handleSubmit, reset} = useForm();
   const [aviso, setAviso] = useState("");
 
   const salvar = async (campos) => {
     try {
-      const response = await api.post("tarefas", campos);
+      const response = await api.post("product/createProduct", campos);
       setAviso(`Tarefa cadastrada com sucesso!"`);
       reset();
     } catch (error) {
@@ -19,40 +19,41 @@ const Cadastrar_tarefa = () => {
   return (
     <div className="container-fluid bg-dark text-light min-vh-100 d-flex align-items-center">
       <div className="container p-5 bg-light text-dark rounded">
-        <h4 className="fst-italic mb-3">Cadastrar Tarefa</h4>
+        <h4 className="fst-italic mb-3">Cadastrar Produto</h4>
         <form onSubmit={handleSubmit(salvar)}>
           <div className="form-group">
-            <label htmlFor="titulo">Titulo</label>
+            <label htmlFor="titulo">Nome</label>
             <input
               type="text"
               className="form-control"
-              id="titulo"
+              id="name"
               required
               autoFocus
-              {...register("titulo")}
+              {...register("name")}
             />
           </div>
           <div className="form-group mt-2">
-            <label htmlFor="descricao">Descrição</label>
+            <label htmlFor="description">Descrição</label>
             <input
               type="text"
               className="form-control"
-              id="descricao"
+              id="description"
               required
-              {...register("descricao")}
+              {...register("description")}
             />
           </div>
           <div className="form-group mt-2">
-            <label htmlFor="status">Status:</label>
+            <label htmlFor="price">Preço:</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
-              id="status"
+              id="price"
               required
-              {...register("status")}
+              step="0.01"
+              {...register("price")}
             />
           </div>
-          <div className="row mt-2">
+          {/* <div className="row mt-2">
             <div className="col-sm-4">
               <div className="form-group">
                 <label htmlFor="data_criacao">Data de Criação</label>
@@ -79,7 +80,7 @@ const Cadastrar_tarefa = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <input
             type="submit"
             className="btn btn-primary mt-3"
@@ -97,4 +98,4 @@ const Cadastrar_tarefa = () => {
   );
 };
 
-export default Cadastrar_tarefa;
+export default Cadastrar_produto;
