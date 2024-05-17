@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 import { api } from "../config_axios";
 import ItemLista from "./ItemLista";  
 
-const ManutencaoTarefas = () => {
+const ManutencaoProdutos = () => {
     //servem para manipular os dados do formulário
     const {register, handleSubmit, reset} = useForm();
     //guardar e setar as informações do objeto
-    const [tarefas, setTarefas] = useState([]);
+    const [produtos, setProdutos] = useState([]);
 
     const obterLista = async () => {
         try{
-            const lista = await api.get("tarefas");
-            setTarefas(lista.data);
+            const lista = await api.get("product/all");
+            setProdutos(lista.data);
         }catch(error){
             alert(`Erro: ..Não foi possível obter os dados: ${error}`);
         }
@@ -36,41 +36,42 @@ const filtrarLista = async (campos) => {
     }
 }
 
-const excluir = async(id,titulo) => {
-    if(!window.confirm(`Confirma a exclusão do Tarefa ${titulo}?`)){
+const excluir = async(id,name) => {
+    if(!window.confirm(`Confirma a exclusão do Prdouto ${name}?`)){
         return;
     }
     try{
         console.log("id é:"+id)
-        await api.delete(`tarefas/${id}`);
+        await api.delete(`product/${id}`);
         //formar uma nova lista de tarefas sem a tarefa que foi excluida
-        setTarefas(tarefas.filter(Tarefas => tarefas.id !== id));
+        setTarefas(produtos.filter(Produtos => produto.id !== id));
         location.reload();
     }catch(error){
-        alert(`Erro: ..Não foi possível excluir a tarefa ${titulo}: ${error}`);
+        alert(`Erro: ..Não foi possível excluir o produto ${name}: ${error}`);
     }
 }
 
 //alterar os registros
-const alterar = async (id,titulo,index) => {
-    const novoStatus = prompt(`Digite o novo status da tarefa ${titulo}`);
-    if (novoStatus == "" ) {
-        alert('Digite um status válido!(status em branco)')
+const alterar = async (id,name,index) => {
+    const novoNome = prompt(`Digite o novo nome do produto ${name}`);
+    if (novoNome == "" ) {
+        alert('Digite um nome válido!(nome em branco)')
         return;
     }
     try{//captura os erros 
         //chamando o backend e passando os dados
-        await api.put(`tarefas/${id}`,{status: novoStatus});
-        
-        const TarefasAtualizadas = [...tarefas];
-        const indiceTarefas = TarefasAtualizadas.find(Tarefas => Tarefas.id === id);
-        console.log("indice tarefa:"+indiceTarefas);
-        TarefasAtualizadas[indiceTarefas.id].status = novoStatus;
-        setTarefas(TarefasAtualizadas);
+        await api.put(`product/updateProduct`,{id: id, name: novoNome});
+        // await api.put(`product/${id}`,{status: novoStatus});
+       
+        const ProdutosAtualizados = [...produtos];
+        const indiceProdutos = ProdutosAtualizados.find(Produtos => Produtos.id === id);
+        console.log("indice produto:"+indiceProdutos);
+        ProdutosAtualizados[indiceProdutos.id].status = novoNome;
+        setProdutos(ProdutosAtualizados);
         obterLista();
         location.reload();
     }catch(error){
-        alert(`Erro: ..Não foi possível alterar a tarefa ${titulo}: ${error}`);
+        alert(`Erro: ..Não foi possível alterar a tarefa ${name}: ${error}`);
     }
 }
 
@@ -78,7 +79,7 @@ const alterar = async (id,titulo,index) => {
        <div className="container">
         <div className="row">
             <div className="col-sm-7">
-                <h4 className="fst-italic mt-3">Manutenção de Tarefas</h4>
+                <h4 className="fst-italic mt-3">Manutenção de Produtos</h4>
             </div>
             <div className="col-sm-5">
                 <form onSubmit={handleSubmit(filtrarLista)}>
@@ -95,26 +96,21 @@ const alterar = async (id,titulo,index) => {
             <thead>
                 <tr>
                     <th>Cód.</th>
-                    <th>Titulo</th>
+                    <th>Nome</th>
                     <th>Descrição</th>
-                    <th>Status</th>
-                    <th>Data Criação</th>
-                    <th>Data Limite</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                {tarefas.map((tarefa) => (
+                {tarefas.map((produto) => (
                     <ItemLista
-                        key={tarefa.id}
-                        id={tarefa.id}
-                        titulo={tarefa.titulo}
-                        descricao={tarefa.descricao}
-                        status={tarefa.status}
-                        data_criacao={tarefa.data_criacao}
-                        data_limite={tarefa.data_limite}
-                        excluirClick={()=>excluir(tarefa.id,tarefa.titulo)}
-                        alterarClick={()=>alterar(tarefa.id,tarefa.titulo)}
+                        key={produto.id}
+                        id={produto.id}
+                        titulo={produto.name}
+                        descricao={produto.description}
+                              
+                        excluirClick={()=>excluir(produto.id,produto.name)}
+                        alterarClick={()=>alterar(produto.id,produto.name)}
                     />
                 ))}
             </tbody>
