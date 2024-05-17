@@ -22,9 +22,17 @@ const ManutencaoProdutos = () => {
 
 //define o método que será executado assim que o componente
 // for renderizado
+// Add a state variable to control page reload
+const [produtosReload, setProdutosReload] = useState(false);
+
+// Update the render condition to trigger reload when produtosReload changes
 useEffect(() => {
-    obterLista();
-},[]);
+    obterLista(); 
+  if (produtosReload) {
+    obterLista(); // Fetch updated data and re-render
+    setProdutosReload(false); // Reset the reload flag
+  }
+}, [produtosReload]);
 
 const filtrarLista = async (campos) => {
     try{
@@ -37,20 +45,24 @@ const filtrarLista = async (campos) => {
     }
 }
 
-const excluir = async(id,name) => {
-    if(!window.confirm(`Confirma a exclusão do Produto ${name}?`)){
-        return;
+const excluir = async (id, name) => {
+    if (!window.confirm(`Confirma a exclusão do Produto ${name}?`)) {
+      return;
     }
-    try{
-        console.log("id é:"+id)
-        await api.delete(`product/deleteProduct/${id}`);
-        //formar uma nova lista de tarefas sem a tarefa que foi excluida
-        setProdutos(produtos.filter(Produtos => produto.id !== id));
-        location.reload();
-    }catch(error){
-        alert(`Erro: ..Não foi possível excluir o produto ${name}: ${error}`);
+  
+    try {
+      console.log("id é:" + id);
+      await api.delete(`product/deleteProduct/${id}`);
+  
+      // Set a state variable to trigger page reload
+      setProdutosReload(true);
+  
+      // Update the produtos state after the deletion is successful
+      setProdutos(produtos.filter((produto) => produto.id !== id));
+    } catch (error) {
+      alert(`Erro: ..Não foi possível excluir o produto ${name}: ${error}`);
     }
-}
+  };
 
 //alterar os registros
 const alterar = async (id,name,index) => {
