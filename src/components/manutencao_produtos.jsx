@@ -65,36 +65,50 @@ const excluir = async (id, name) => {
   };
 
 //alterar os registros
-const alterar = async (id,name,description,price,index) => {
+const alterar = async (id, name, description, price, index) => {
     const novoNome = prompt(`Digite o novo nome do produto ${name}`);
-    if (novoNome == "" ) {
-        alert('Digite um nome válido!(nome em branco)')
-        return;
+    if (novoNome == "") {
+      alert('Digite um nome válido!(nome em branco)')
+      return;
     }
-    try{//captura os erros 
-        //chamando o backend e passando os dados
-        // Encapsulando os dados em um objeto
-        const dadosProduto = {
-         id: id,
-         name: novoNome,
-         description: description,
-         price: price
+    try {
+      // Encapsulando os dados em um objeto
+      const dadosProduto = {
+        id: id,
+        name: novoNome,
+        description: description,
+        price: price
+      };
+  
+      // Passando o objeto com os dados para a requisição
+      await api.put(`product/updateProduct`, dadosProduto);
+  
+      // Atualizando a lista de produtos no estado
+      const updatedProdutos = [...produtos]; // Criando uma cópia da lista atual
+      const produtoIndex = updatedProdutos.findIndex(produto => produto.id === id); // Encontrando o índice do produto a ser atualizado
+  
+      if (produtoIndex !== -1) {
+        // Atualizando o produto na cópia da lista
+        updatedProdutos[produtoIndex] = {
+          id: id,
+          name: novoNome,
+          description: description,
+          price: price
         };
-        await api.put(`product/updateProduct`,dadosProduto);
-        // await api.put(`product/${id}`,{status: novoStatus});
-       // Set a state variable to trigger page reload
-        setProdutosReload(true);
-        const ProdutosAtualizados = [...produtos];
-        const indiceProdutos = ProdutosAtualizados.find(Produtos => Produtos.id === id);
-        console.log("indice produto:"+indiceProdutos);
-        ProdutosAtualizados[indiceProdutos.id].name = novoNome;
-        setProdutos(ProdutosAtualizados);
-        obterLista();
-        location.reload();
-    }catch(error){
-        alert(`Erro: ..Não foi possível alterar a tarefa ${name}: ${error}`);
+  
+        // Definindo a lista atualizada no estado
+        setProdutos(updatedProdutos);
+      } else {
+        console.error(`Produto com id ${id} não encontrado na lista para ser atualizado.`);
+      }
+  
+      // Set a state variable to trigger page reload
+      setProdutosReload(true);
+    } catch (error) {
+      alert(`Erro: ..Não foi possível alterar o produto ${name}: ${error}`);
     }
-}
+  };
+  
 
     return (
        <div className="container">
