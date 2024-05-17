@@ -1,6 +1,6 @@
 import Cadastrar_Produto from './components/cadastrar_produto';
 import Menu_Superior from './components/MenuSuperior';
-import Manutencao_Tarefas from './components/manutencao_tarefas';
+import Manutencao_Produtos from './components/manutencao_produtos';
 import FormularioLogin from './components/login';
 import Cadastrar_Usuarios from './components/cadastrar_usuario';
 import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
@@ -31,7 +31,7 @@ const RoutesWithAuth = () => {
             ) : <FormularioLogin />}
         />
         <Route path="/tarefas" element={<ProtectedRoute><Cadastrar_Produto /></ProtectedRoute>} />
-        <Route path="/manutencao" element={<ProtectedRoute><Manutencao_Tarefas /></ProtectedRoute>} />
+        <Route path="/manutencao" element={<ProtectedRoute><Manutencao_Produtos /></ProtectedRoute>} />
         <Route path="/user" element={<ProtectedRoute><Cadastrar_Usuarios /></ProtectedRoute>} />
       </Routes>
     </Router>

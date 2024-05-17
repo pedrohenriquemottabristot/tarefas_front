@@ -27,17 +27,17 @@ useEffect(() => {
 
 const filtrarLista = async (campos) => {
     try{
-        const lista = await api.get(`tarefas/filtro/${campos.palavra}`);
+        const lista = await api.get(`produtos/filtro/${campos.palavra}`);
         lista.data.length
         ? setTarefas(lista.data)
-        : alert("Não há tarefas cadastradas com a palavra chave pesquisada");
+        : alert("Não há produtos cadastrados com a palavra chave pesquisada");
     }catch(error){
         alert(`Erro: ..Não foi possível obter os dados: ${error}`);
     }
 }
 
 const excluir = async(id,name) => {
-    if(!window.confirm(`Confirma a exclusão do Prdouto ${name}?`)){
+    if(!window.confirm(`Confirma a exclusão do Produto ${name}?`)){
         return;
     }
     try{
@@ -102,13 +102,12 @@ const alterar = async (id,name,index) => {
                 </tr>
             </thead>
             <tbody>
-                {tarefas.map((produto) => (
+                {produtos.map((produto) => (
                     <ItemLista
                         key={produto.id}
                         id={produto.id}
                         titulo={produto.name}
-                        descricao={produto.description}
-                              
+                        descricao={produto.description}                              
                         excluirClick={()=>excluir(produto.id,produto.name)}
                         alterarClick={()=>alterar(produto.id,produto.name)}
                     />
@@ -120,4 +119,4 @@ const alterar = async (id,name,index) => {
     );
 };
 
-export default ManutencaoTarefas;
+export default ManutencaoProdutos;
