@@ -2,58 +2,58 @@ import { useForm } from "react-hook-form";
 import { api } from "../config_axios";
 import { useState } from "react";
 
-const Cadastrar_Usuario = () => {
-  const { register, handleSubmit,reset } = useForm();
+const Cadastrar_produto = () => {
+  const { register, handleSubmit, reset} = useForm();
   const [aviso, setAviso] = useState("");
 
   const salvar = async (campos) => {
     try {
-      //vamos enviar os dados digitados para a rota /user do backend
-      const response = await api.post("user/createUsers", campos);
-      setAviso(`Usuário cadastrado com sucesso!"`);
+      const response = await api.post("product/createProduct", campos);
+      setAviso(`Produto cadastrado com sucesso!"`);
       reset();
     } catch (error) {
-      setAviso("Erro ao cadastrar usuário!");
+      setAviso("Erro ao cadastrar produto!");
     }
   };
 
   return (
     <div className="container-fluid bg-dark text-light min-vh-100 d-flex align-items-center">
       <div className="container p-5 bg-light text-dark rounded">
-        <h4 className="fst-italic mb-3">Cadastrar Usuário</h4>
+        <h4 className="fst-italic mb-3">Cadastrar Produto</h4>
         <form onSubmit={handleSubmit(salvar)}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">Nome do Produto</label>
             <input
               type="text"
               className="form-control"
-              id="username"
+              id="name"
               required
               autoFocus
-              {...register("username")}
+              {...register("name")}
             />
           </div>
           <div className="form-group mt-2">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="description">Descrição</label>
             <input
-              type="email"
+              type="text"
               className="form-control"
-              id="email"
+              id="description"
               required
-              {...register("email")}
+              {...register("description")}
             />
           </div>
           <div className="form-group mt-2">
-            <label htmlFor="status">Senha:</label>
+            <label htmlFor="price">Preço:</label>
             <input
-              type="password"
+              type="number"
               className="form-control"
-              id="password"
+              id="price"
               required
-              {...register("password")}
+              step="0.01"
+              {...register("price")}
             />
           </div>
-                   
+        
           <input
             type="submit"
             className="btn btn-primary mt-3"
@@ -71,4 +71,4 @@ const Cadastrar_Usuario = () => {
   );
 };
 
-export default Cadastrar_Usuario;
+export default Cadastrar_produto;
