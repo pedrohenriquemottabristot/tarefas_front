@@ -36,7 +36,7 @@ useEffect(() => {
 
 const filtrarLista = async (campos) => {
     try{
-        const lista = await api.get(`produtos/filtro/${campos.palavra}`);
+        const lista = await api.get(`product/filtro/${campos.palavra}`);
         lista.data.length
         ? setProdutos(lista.data)
         : alert("Não há produtos cadastrados com a palavra chave pesquisada");
