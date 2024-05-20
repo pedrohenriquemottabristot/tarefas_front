@@ -9,10 +9,10 @@ const Cadastrar_produto = () => {
   const salvar = async (campos) => {
     try {
       const response = await api.post("product/createProduct", campos);
-      setAviso(`Tarefa cadastrada com sucesso!"`);
+      setAviso(`Produto cadastrado com sucesso!"`);
       reset();
     } catch (error) {
-      setAviso("Erro ao cadastrar tarefa!");
+      setAviso("Erro ao cadastrar produto!");
     }
   };
 
