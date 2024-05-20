@@ -38,7 +38,7 @@ const filtrarLista = async (campos) => {
     try{
         const lista = await api.get(`produtos/filtro/${campos.palavra}`);
         lista.data.length
-        ? setTarefas(lista.data)
+        ? setProdutos(lista.data)
         : alert("Não há produtos cadastrados com a palavra chave pesquisada");
     }catch(error){
         alert(`Erro: ..Não foi possível obter os dados: ${error}`);

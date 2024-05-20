@@ -17,7 +17,7 @@ const FormularioLogin = () => {
         }
     
         try {
-            const response = await api.post("/login", { username, password });
+            const response = await api.post("user/login", { username, password });
             if (response.status === 200) {
                 login();
             } else {
