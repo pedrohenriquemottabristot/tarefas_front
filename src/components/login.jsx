@@ -42,7 +42,7 @@ const FormularioLogin = () => {
                                 <label className="form-label" htmlFor="username">Usuário</label>
                             </div>
                             <div className="form-outline mb-4">
-                                <input type="password" id="password" className="form-control form-control-lg" value={password} onChange={(e) => setSenha(e.target.value)} />
+                                <input type="password" id="password" className="form-control form-control-lg" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label className="form-label" htmlFor="password">Senha</label>
                             </div>
                            
