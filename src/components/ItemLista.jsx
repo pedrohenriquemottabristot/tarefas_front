@@ -3,16 +3,16 @@ import "../css/ItemLista.css";
 //nocódigo abaixo fiz a desestruturação de props
 const ItemLista = ({
     id,
-    nome,
-    descricao,
+    name,
+    description,
     price,
     excluirClick,
     alterarClick}) => {
     return (
         <tr>
             <td>{id}</td>
-            <td>{nome}</td>
-            <td>{descricao}</td>
+            <td>{name}</td>
+            <td>{description}</td>
             <td>{price}</td>
            
             <td class="text-center">
